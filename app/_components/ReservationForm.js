@@ -44,9 +44,9 @@ function ReservationForm({ cabin, user }) {
         <div className="flex gap-4 items-center">
           <Image
             referrerPolicy="no-referrer"
-            width={32}  // Pixel cinsinden genişlik (required)
-            height={32} // Pixel cinsinden yükseklik (required)
-            className="h-8 rounded" // Tailwind class'ları çalışmaya devam eder
+            width={32}  
+            height={32}
+            className="h-8 rounded"
             src={image}
             alt={name}
           />
