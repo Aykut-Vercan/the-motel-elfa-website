@@ -1,4 +1,6 @@
-//account'a gidenleri abouta yönlendirme işlemi
+
+/*
+account'a gidenleri abouta yönlendirme işlemi
 
 // import { NextResponse } from "next/server";
 
@@ -6,7 +8,7 @@
 //     console.log(request);
 
 //     return NextResponse.redirect(new URL("/about", request.url));
-// }
+ }*/
 
 import { auth } from "@/app/_lib/auth";
 

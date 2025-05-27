@@ -3,7 +3,6 @@ import { auth } from "../_lib/auth"
 
 const Page = async () => {
     const session = await auth();
-    console.log(session)
     const firstName = session.user.name.split(" ").at(0)
     const formattedName = firstName[0].toUpperCase() + firstName.slice(1);
     return (

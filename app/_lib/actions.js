@@ -38,8 +38,6 @@ export async function updateProfile(formData) {
 //Send mail
 export async function sendMail({ to, subject, html }) {
 
-  console.log(to)
-  console.log(subject)
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -72,206 +70,133 @@ export async function createBooking(bookingData, formData) {
   if (!session) throw new Error("You must be logged in");
   const formValues = Object.fromEntries(formData);
   const { cabinName, ...restBookingData } = bookingData;
+
   const html = `
    <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking Confirmation</title>
-  <style type="text/css">
-    /* Inline CSS - Tailwind benzeri stiller */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f3f4f6;
-      margin: 0;
-      padding: 0;
-      color: #374151;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .header {
-      background:#1f2937;
-      color: white;
-      text-align: center;
-      padding: 48px 32px;
-    }
-    .content {
-      padding: 32px;
-      background-color: white;
-    }
-    .details-box {
-      background-color: #f9fafb;
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 32px;
-    }
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
-    .total-price {
-      background: #1f2937;
-      color: white;
-      border-radius: 8px;
-      padding: 16px;
-      margin-top: 24px;
-    }
-    .footer {
-      background-color: #f9fafb;
-      text-align: center;
-      padding: 32px 24px;
-    }
-    /* Responsive */
-    @media only screen and (max-width: 600px) {
-      .container {
-        padding: 10px;
-      }
-      .header, .content {
-        padding: 24px 16px;
-      }
-    }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <div style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
-      <!-- Header -->
-      <div class="header">
-        <div style="font-size: 48px; margin-bottom: 8px;">🎉</div>
-        <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">Booking Confirmed!</h1>
-        <p style="color: #bfdbfe; font-size: 18px;">Your dream getaway awaits</p>
-      </div>
-      
-      <!-- Content -->
-      <div class="content">
-        <!-- Greeting -->
-        <div style="margin-bottom: 32px;">
-          <p style="font-size: 20px; color: #4b5563; margin-bottom: 16px;">Hello <span style="font-weight: 600; color: #111827;">${session.user.name}</span>,</p>
-          <p style="color: #6b7280; line-height: 1.6;">
-            Thank you for choosing us for your upcoming stay! <br/> We're thrilled to confirm your reservation and can't wait to provide you with an unforgettable experience.
-          </p>
-        </div>
-        
-        <!-- Reservation Details -->
-        <div class="details-box">
-          <div style="display: flex; align-items: center; margin-bottom: 24px;">
-            <span style="font-size: 24px; margin-right: 12px;">📋</span>
-            <h2 style="font-size: 20px; font-weight: 600; color: #1f2937;">Your Reservation Details</h2>
-          </div>
-          
-          <div style="display: flex; flex-direction: column; gap: 16px;">
-                 <!-- Cabin Name -->
-            <div class="detail-row">
-              <div style="display: flex; align-items: center;">
-                <span style="font-size: 20px; margin-right: 12px;">🛏️</span>
-                <span style="font-weight: 500; color: #6b7280;">Your Room</span>
+<body style="margin:0; padding:0; background-color:#f3f4f6; font-family: Arial, sans-serif; color: #374151;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color:#f3f4f6; padding: 20px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="background-color:#ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+          <!-- Header -->
+          <tr>
+            <td align="center" style="background-color:#1f2937; color:white; padding:48px 32px;">
+              <div style="font-size:48px; margin-bottom:8px;">🎉</div>
+              <h1 style="font-size:28px; font-weight:700; margin:0 0 8px;">Booking Confirmed!</h1>
+              <p style="color:#bfdbfe; font-size:18px; margin:0;">Your dream getaway awaits</p>
+            </td>
+          </tr>
+
+          <!-- Content -->
+          <tr>
+            <td style="padding:32px;">
+              <!-- Greeting -->
+              <p style="font-size:20px; color:#4b5563; margin-bottom:16px;">Hello <strong style="color:#111827;">${session.user.name}</strong>,</p>
+              <p style="color:#6b7280; line-height:1.6; margin-bottom:32px;">
+                Thank you for choosing us for your upcoming stay!<br />
+                We're thrilled to confirm your reservation and can't wait to provide you with an unforgettable experience.
+              </p>
+
+              <!-- Reservation Details -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9fafb; border-radius:12px; padding:24px; margin-bottom:32px;">
+                <tr>
+                  <td colspan="2" style="padding-bottom:24px; font-size:20px; font-weight:600; color:#1f2937;">
+                    📋 Your Reservation Details
+                  </td>
+                </tr>
+
+                <!-- Room -->
+                <tr>
+                  <td style="padding:12px 0; color:#6b7280;">🛏️ Your Room</td>
+                  <td align="right" style="padding:12px 0; font-weight:600; color:#1f2937;">Cabin ${cabinName}</td>
+                </tr>
+                <tr><td colspan="2" style="border-bottom:1px solid #e5e7eb;"></td></tr>
+
+                <!-- Check-in -->
+                <tr>
+                  <td style="padding:12px 0; color:#6b7280;">📅 Check-in Date</td>
+                  <td align="right" style="padding:12px 0; font-weight:600; color:#1f2937;">
+                    ${new Date(bookingData.startDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </td>
+                </tr>
+                <tr><td colspan="2" style="border-bottom:1px solid #e5e7eb;"></td></tr>
+
+                <!-- Check-out -->
+                <tr>
+                  <td style="padding:12px 0; color:#6b7280;">📅 Check-out Date</td>
+                  <td align="right" style="padding:12px 0; font-weight:600; color:#1f2937;">
+                    ${new Date(bookingData.endDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </td>
+                </tr>
+                <tr><td colspan="2" style="border-bottom:1px solid #e5e7eb;"></td></tr>
+
+                <!-- Nights -->
+                <tr>
+                  <td style="padding:12px 0; color:#6b7280;">🌙 Duration</td>
+                  <td align="right" style="padding:12px 0; font-weight:600; color:#1f2937;">
+                    ${Number(bookingData.numNights)} ${Number(bookingData.numNights) === 1 ? "night" : "nights"}
+                  </td>
+                </tr>
+                <tr><td colspan="2" style="border-bottom:1px solid #e5e7eb;"></td></tr>
+
+                <!-- Guests -->
+                <tr>
+                  <td style="padding:12px 0; color:#6b7280;">👥 Guests</td>
+                  <td align="right" style="padding:12px 0; font-weight:600; color:#1f2937;">
+                    ${Number(formValues.numGuests)} ${Number(formValues.numGuests) === 1 ? "guest" : "guests"}
+                  </td>
+                </tr>
+                <tr><td colspan="2" style="border-bottom:1px solid #e5e7eb;"></td></tr>
+
+                <!-- Total Price -->
+                <tr>
+                  <td colspan="2" style="padding:16px; background-color:#1f2937; color:white; border-radius:8px; font-weight:700; font-size:18px; text-align:right;">
+                    💰 Total Price: $${bookingData.cabinPrice}
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Excitement -->
+              <div style="background: #ffedd5; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 32px;">
+                <div style="font-size: 36px; margin-bottom: 12px;">🏞️</div>
+                <p style="color: #9a3412; font-weight: 500; font-size: 18px;">
+                  We are absolutely looking forward to hosting you and making your stay memorable!
+                </p>
               </div>
-              <span style="font-weight: 600; color: #1f2937;">
-               Cabin ${cabinName}
-              </span>
-            </div>
-            <!-- Check-in Date -->
-            <div class="detail-row">
-              <div style="display: flex; align-items: center;">
-                <span style="font-size: 20px; margin-right: 12px;">📅</span>
-                <span style="font-weight: 500; color: #6b7280;">Check-in Date</span>
-              </div>
-              <span style="font-weight: 600; color: #1f2937;">
-                ${new Date(bookingData.startDate).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })}
-              </span>
-            </div>
-            
-            <!-- Check-out Date -->
-            <div class="detail-row">
-              <div style="display: flex; align-items: center;">
-                <span style="font-size: 20px; margin-right: 12px;">📅</span>
-                <span style="font-weight: 500; color: #6b7280;">Check-out Date</span>
-              </div>
-              <span style="font-weight: 600; color: #1f2937;">
-                ${new Date(bookingData.endDate).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })}
-              </span>
-            </div>
-            
-            <!-- Number of Nights -->
-            <div class="detail-row">
-              <div style="display: flex; align-items: center;">
-                <span style="font-size: 20px; margin-right: 12px;">🌙</span>
-                <span style="font-weight: 500; color: #6b7280;">Duration</span>
-              </div>
-              <span style="font-weight: 600; color: #1f2937;">
-                ${Number(bookingData.numNights)} ${Number(bookingData.numNights) === 1 ? "night" : "nights"}
-              </span>
-            </div>
-            
-            <!-- Guests -->
-            <div class="detail-row">
-              <div style="display: flex; align-items: center;">
-                <span style="font-size: 20px; margin-right: 12px;">👥</span>
-                <span style="font-weight: 500; color: #6b7280;">Guests</span>
-              </div>
-              <span style="font-weight: 600; color: #1f2937;">
-                ${Number(formValues.numGuests)} ${Number(formValues.numGuests) === 1 ? "guest" : "guests"}
-              </span>
-            </div>
-            
-            <!-- Total Price -->
-            <div class="total-price">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center;">
-                  <span style="font-size: 24px; margin-right: 12px;">💰</span>
-                  <span style="font-weight: 500; font-size: 18px;">Total Price</span>
-                </div>
-                <span style="font-weight: 700; font-size: 24px;">$${bookingData.cabinPrice}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Excitement Section -->
-        <div style="background: linear-gradient(to right, #ffedd5, #fee2e2); border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 32px;">
-          <div style="font-size: 36px; margin-bottom: 12px;">🏞️</div>
-          <p style="color: #9a3412; font-weight: 500; font-size: 18px;">
-            We are absolutely looking forward to hosting you and making your stay memorable!
-          </p>
-        </div>
-        
-        <!-- Additional Info -->
-        <div style="color: #6b7280; line-height: 1.6; margin-bottom: 24px;">
-          <p style="margin-bottom: 16px;">
-            If you have any questions or special requests, please don't hesitate to contact us. We're here to help make your experience perfect!
-          </p>
-        </div>
-      </div>
-      <!-- Footer -->
-      <div class="footer">
-        <p style="font-weight: 600; color: #1f2937; margin-bottom: 8px;">Best regards,</p>
-        <p style="color: #6b7280;">Your Cabin Booking Team 🏡</p>
-        <div style="margin-top: 16px; font-size: 12px; color: #6b7280;">
-          <p>This is an automated confirmation email. Please save this for your records.</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Footer disclaimer -->
-    <div style="text-align: center; margin-top: 24px; font-size: 12px; color: #6b7280;">
-      <p>© 2025 Your Cabin Booking Service. All rights reserved.</p>
-    </div>
-  </div>
+
+              <!-- Info -->
+              <p style="color: #6b7280; line-height: 1.6; margin-bottom: 24px;">
+                If you have any questions or special requests, please don't hesitate to contact us. We're here to help make your experience perfect!
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#f9fafb; text-align:center; padding:32px 24px;">
+              <p style="font-weight:600; color:#1f2937; margin:0;">Best regards,</p>
+              <p style="color:#6b7280; margin:8px 0 0;">Your Cabin Booking Team 🏡</p>
+              <p style="font-size:12px; color:#6b7280; margin-top:16px;">
+                This is an automated confirmation email. Please save this for your records.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Legal -->
+          <tr>
+            <td style="text-align:center; font-size:12px; color:#6b7280; padding: 16px;">
+              © 2025 Your Cabin Booking Service. All rights reserved.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
   `;
@@ -287,7 +212,6 @@ export async function createBooking(bookingData, formData) {
     hasBreakfast: false,
     status: "unconfirmed",
   };
-  console.log([newBooking])
   const { error } = await supabase.from("bookings").insert([newBooking]);
   if (error) {
     throw new Error("Booking could not be created");
@@ -323,7 +247,7 @@ export async function updateBooking(formData) {
     numGuests: +formData.get("numGuests"),
     observations: formData.get("observations").slice(0, 1000),
   };
-  console.log(updateData);
+  
   //4-)Mutaion
   const { error } = await supabase
     .from("bookings")

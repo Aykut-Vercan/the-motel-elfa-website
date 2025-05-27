@@ -8,7 +8,6 @@ function ReservationReminder() {
 
 
   if (!range?.from || !range?.to) return null;
-  console.log(range.from, range.to);
 
   return (
     <div className='fixed bottom-6 left-1/2 -translate-x-1/2 py-5 px-8 rounded-full bg-zinc-200 text-primary-800 text  font-semibold shadow-xl shadow-slate-900 flex gap-8 items-center'>
