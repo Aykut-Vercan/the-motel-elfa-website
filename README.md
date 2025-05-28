@@ -3,7 +3,7 @@
 ## Project Overview
 
 This project is a modern web application built with **Next.js** and powered by **Supabase** as the backend.  
-The web application allows users to can log in with their Google accounts, browse motel and cabin details, make bookings, and view their past reservations.  
+This web application allows users to can log in with their Google accounts, browse motel and cabin details, make bookings, and view their past reservations.  
 Upon successful booking, a confirmation email is automatically sent to the user.
 
 ## Features
